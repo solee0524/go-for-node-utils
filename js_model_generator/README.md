@@ -1,6 +1,3 @@
-# go-for-node-utils
-Some utilities for node written by go.
-
 ## js_model_generator
 
 A tiny tool to generate sequelize for nodejs via go.

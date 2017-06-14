@@ -1,0 +1,28 @@
+/**
+ * Created by solee on 1/26/16.
+ */
+'use strict';
+
+var helper = require('../../utils/helper');
+
+module.exports = function (sequelize, DataTypes) {
+  return sequelize.define('{{.TableName}}', {
+{{.ColumnDetails}}
+  }, {
+    timestamps: false,
+    freezeTableName: true,
+    hooks: {
+      beforeCreate: function (instance, options, fn) {
+        instance.created_at = instance.updated_at = helper.currentTimestamp();
+
+        fn(null, instance);
+      },
+
+      beforeUpdate: function (instance, options, fn) {
+        instance.updated_at = helper.currentTimestamp();
+
+        fn(null, instance);
+      }
+    }
+  });
+};
