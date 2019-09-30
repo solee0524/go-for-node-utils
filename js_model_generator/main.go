@@ -38,18 +38,18 @@ func main() {
 	var argsLen int
 
 	argsLen = len(os.Args)
-	if argsLen < 3 {
-		fmt.Printf("Wrong args format! Must Be ./js_model_generator [database name] [table name]\n")
+	if argsLen < 6 {
+		fmt.Printf("Wrong args format! Must Be ./js_model_generator [host] [port] [username] [password] [database name] [table name]\n")
 		return
 	}
-	databaseName = os.Args[1]
-	tabelName = os.Args[2]
+	databaseName = os.Args[5]
+	tabelName = os.Args[6]
 
 	// 数据库连接配置 for Mysql
-	var username string = "username"
-	var password string = "password"
-	var host string = "localhost"
-	var port string = "3306"
+	var host string = os.Args[1]
+	var port string = os.Args[2]
+	var username string = os.Args[3]
+	var password string = os.Args[4]
 	connectStr := fmt.Sprintf("%s:%s@tcp(%s:%s)/information_schema?timeout=10s", username, password, host, port)
 	engine, err := xorm.NewEngine("mysql", connectStr)
 	checkError(err)
@@ -76,6 +76,8 @@ func main() {
 		case "varchar":
 			columnType = strings.Replace(columnType, "varchar", "DataTypes.STRING", -1)
 		case "text":
+		case "mediumrtext":
+		case "longtext":
 			columnType = strings.Replace(columnType, "text", "DataTypes.TEXT", -1)
 		}
 

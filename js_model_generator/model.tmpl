@@ -12,16 +12,17 @@ module.exports = function (sequelize, DataTypes) {
     timestamps: false,
     freezeTableName: true,
     hooks: {
-      beforeCreate: function (instance, options, fn) {
+      beforeCreate: function (instance, options) {
         instance.created_at = instance.updated_at = helper.currentTimestamp();
-
-        fn(null, instance);
       },
-
-      beforeUpdate: function (instance, options, fn) {
+      beforeUpdate: function (instance, options) {
         instance.updated_at = helper.currentTimestamp();
-
-        fn(null, instance);
+      },
+      beforeBulkUpdate: function (options) {
+        options.individualHooks = true;
+      },
+      beforeBulkCreate: function (instances, options) {
+        options.individualHooks = true;
       }
     }
   });
