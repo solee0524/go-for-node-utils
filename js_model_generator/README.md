@@ -14,3 +14,8 @@ Only support for Mysql right now.
 
 1. Add support for text data type;
 2. Add more parameter config support;
+
+### 1.0.2
+
+1. Add support for camel style variable;
+

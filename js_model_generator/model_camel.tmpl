@@ -1,0 +1,29 @@
+/**
+ * Created by solee on 1/26/16.
+ */
+'use strict';
+
+var helper = require('../../utils/helper');
+
+module.exports = function (sequelize, DataTypes) {
+  return sequelize.define('{{.TableName}}', {
+{{.ColumnDetails}}
+  }, {
+    timestamps: false,
+    freezeTableName: true,
+    hooks: {
+      beforeCreate: function (instance, options) {
+        instance.createdAt = instance.updatedAt = helper.currentTimestamp();
+      },
+      beforeUpdate: function (instance, options) {
+        instance.updatedAt = helper.currentTimestamp();
+      },
+      beforeBulkUpdate: function (options) {
+        options.individualHooks = true;
+      },
+      beforeBulkCreate: function (instances, options) {
+        options.individualHooks = true;
+      }
+    }
+  });
+};
