@@ -36,17 +36,16 @@ func main() {
 	var databaseName string
 	var tabelName string
 	var argsLen int
-	var modelStyle int
+	var modelStyle string
 
 	argsLen = len(os.Args)
-	if argsLen < 6 {
-		fmt.Printf("Wrong args format! Must Be ./js_model_generator [host] [port] [username] [password] [database name] [table name] [model_style:1(undeline_mode:default) 2(camel_mode)]\n")
+	if argsLen < 8 {
+		fmt.Printf("Wrong args format! Must Be ./js_model_generator [host] [port] [username] [password] [database name] [table name] [model_style:1(undeline_mode) 2(camel_mode)]\n")
 		return
 	}
 	databaseName = os.Args[5]
 	tabelName = os.Args[6]
 	modelStyle = os.Args[7]
-	fmt.Printf(modelStyle)
 
 	// 数据库连接配置 for Mysql
 	var host string = os.Args[1]
@@ -85,10 +84,24 @@ func main() {
 		}
 
 		columnName := v.ColumnName;
-		if modelStyle == 2 {
+		if modelStyle == "2" {
 			// TODO 修改栏目名称为驼峰模式
-			words := strings.Split(columnName, '_')
-			
+			temp := strings.Split(columnName, "_")
+			var s string
+			for i, v := range temp {
+				if (i != 0) {
+					vv := []rune(v)
+					if len(vv) > 0 {
+						if bool(vv[0] >= 'a' && vv[0] <= 'z') { //首字母大写
+							vv[0] -= 32
+						}
+						s += string(vv)
+					}
+				} else {
+						s += v
+				}
+			}
+			columnName = s;
 		}
 		var tmpString = "    " + columnName + ": {type: " + columnType
 
@@ -129,7 +142,7 @@ func main() {
 		ColumnDetails string
 	}
 	modelFileName := "model.tmpl"
-	if modelStyle == 2 {
+	if modelStyle == "2" {
 		modelFileName = "model_camel.tmpl"
 	}
 	tmplModelFile, err := template.ParseFiles(modelFileName)
