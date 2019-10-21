@@ -72,13 +72,14 @@ func main() {
 
 		// 生成DataType
 		var columnType = v.ColumnType
+		fmt.Sprintf("%s",v.DataType)
 		switch v.DataType {
 		case "int":
 			columnType = strings.Replace(columnType, "int", "DataTypes.INTEGER", -1)
 		case "varchar":
 			columnType = strings.Replace(columnType, "varchar", "DataTypes.STRING", -1)
 		case "text":
-		case "mediumrtext":
+		case "mediumtext":
 		case "longtext":
 			columnType = strings.Replace(columnType, "text", "DataTypes.TEXT", -1)
 		}
