@@ -28,10 +28,6 @@ type Column struct {
 	ColumnComment   string `xorm:"COLUMN_COMMENT varchar(1024) notnull"`
 }
 
-// func (c Column) TableName() string {
-// 	return "COLUMNS"
-// }
-
 func main() {
 	var databaseName string
 	var tabelName string
@@ -65,7 +61,6 @@ func main() {
 	checkError(err)
 	defer file.Close()
 
-	// TODO
 	// 组装Column Detail内容
 	var columnDetails = ""
 	for i, v := range columns {
@@ -86,7 +81,7 @@ func main() {
 
 		columnName := v.ColumnName;
 		if modelStyle == "2" {
-			// TODO 修改栏目名称为驼峰模式
+			// 修改栏目名称为驼峰模式
 			temp := strings.Split(columnName, "_")
 			var s string
 			for i, v := range temp {
